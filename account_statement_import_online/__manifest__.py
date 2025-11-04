@@ -5,8 +5,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Online Bank Statements",
-    "version": "18.0.1.1.1",
+    "name": "Online Bank Statement Import",
+    "version": "19.0.1.0.0",
     "author": "CorporateHub, Odoo Community Association (OCA)",
     "maintainers": ["alexey-pelykh"],
     "website": "https://github.com/OCA/bank-statement-import",
@@ -17,14 +17,10 @@
         "account_statement_import_base",
     ],
     "data": [
-        "data/account_statement_import_online.xml",
         "security/ir.model.access.csv",
-        "security/online_bank_statement_provider.xml",
-        "wizards/online_bank_statement_pull_debug.xml",
-        "wizards/online_bank_statement_pull_wizard.xml",
-        "views/actions.xml",
-        "views/account_journal.xml",
         "views/online_bank_statement_provider.xml",
+        "wizard/online_bank_statement_pull_wizard_views.xml",
+        "data/online_bank_statement_provider_cron.xml",
     ],
     "installable": True,
 }

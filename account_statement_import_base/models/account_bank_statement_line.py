@@ -2,7 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AccountBankStatementLine(models.Model):
@@ -13,10 +14,16 @@ class AccountBankStatementLine(models.Model):
     unique_import_id = fields.Char(string="Import ID", copy=False)
     raw_data = fields.Text(copy=False)
 
-    _sql_constraints = [
-        (
-            "unique_import_id",
-            "unique(unique_import_id)",
-            "A bank account transaction can be imported only once!",
-        )
-    ]
+    @api.constrains("unique_import_id")
+    def _check_unique_import_id(self):
+        for rec in self:
+            if not rec.unique_import_id:
+                continue
+            domain = [
+                ("unique_import_id", "=", rec.unique_import_id),
+                ("id", "!=", rec.id),
+            ]
+            if self.search_count(domain):
+                raise ValidationError(
+                    "A bank account transaction can be imported only once!"
+                )
