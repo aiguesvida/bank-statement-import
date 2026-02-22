@@ -99,18 +99,14 @@ class OnlineBankStatementProvider(models.Model):
     certificate_private_key = fields.Text()
     certificate_chain = fields.Text()
 
-    _sql_constraints = [
-        (
-            "journal_id_uniq",
-            "UNIQUE(journal_id)",
-            "Only one online banking statement provider per journal!",
-        ),
-        (
-            "valid_interval_number",
-            "CHECK(interval_number > 0)",
-            "Scheduled update interval must be greater than zero!",
-        ),
-    ]
+    _journal_id_uniq = models.Constraint(
+        "UNIQUE(journal_id)",
+        "Only one online banking statement provider per journal!",
+    )
+    _valid_interval_number = models.Constraint(
+        "CHECK(interval_number > 0)",
+        "Scheduled update interval must be greater than zero!",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
